@@ -51,7 +51,9 @@ fi
 nixos-generate-config --root /mnt
 
 curl -sf "$PACKER_HTTP_ADDR/vagrant.nix" > /mnt/etc/nixos/vagrant.nix
-if [ $MACHINE_TYPE == "Legacy" ];then
+if [ $MACHINE_TYPE == "Legacy" -a $DISK == "vda" ];then
+curl -sf "$PACKER_HTTP_ADDR/grub-bios-vda.nix" > /mnt/etc/nixos/bootloader.nix
+elif [ $MACHINE_TYPE == "Legacy" ];then
 curl -sf "$PACKER_HTTP_ADDR/grub-bios.nix" > /mnt/etc/nixos/bootloader.nix
 elif [ $MACHINE_TYPE == "UEFI" ];then
 curl -sf "$PACKER_HTTP_ADDR/grub-efi.nix" > /mnt/etc/nixos/bootloader.nix
