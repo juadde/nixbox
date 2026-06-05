@@ -36,7 +36,7 @@ mkfs.ext4 -L nixos /dev/sda1
 fi
 
 # Mount filesystem
-mount LABEL=nixos /mnt
+mount -t ext4 LABEL=nixos /mnt
 if [ $MACHINE_TYPE == "UEFI" ];then
 mkdir -p /mnt/boot/efi
 if [ -e /dev/disk/by-label/esp ];then
