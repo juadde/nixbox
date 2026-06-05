@@ -128,7 +128,7 @@ source "qemu" "qemu" {
     "sudo systemctl start sshd<enter>"
   ]
   boot_wait            = var.boot_wait
-  disk_interface       = "virtio-scsi"
+  disk_interface       = "sata"
   disk_size            = var.disk_size
   format               = "qcow2"
   headless             = true
