@@ -170,7 +170,7 @@ source "qemu" "qemu-efi" {
   ssh_private_key_file = "./scripts/install_ed25519"
   ssh_username         = "nixos"
   efi_firmware_code    = "./efi_data/OVMF_CODE_4M.ms.fd"
-  #efi_firmware_vars    = "./efi_data/OVMF_VARS_4M.ms.fd"
+  efi_firmware_vars    = "./efi_data/OVMF_VARS_4M.ms.fd"
 }
 
 source "virtualbox-iso" "virtualbox" {
