@@ -2,7 +2,7 @@ packer {
   required_plugins {
     qemu = {
       source  = "github.com/hashicorp/qemu"
-      version = ">= 1.1.0"
+      version = ">= 1.1.3"
     }
     vmware = {
       source  = "github.com/hashicorp/vmware"
@@ -14,11 +14,11 @@ packer {
     }
     virtualbox = {
       source  = "github.com/hashicorp/virtualbox"
-      version = "~> 1.1.1"
+      version = ">= 1.1.3"
     }
     vagrant = {
       source  = "github.com/hashicorp/vagrant"
-      version = "~> 1"
+      version = ">= 1.1.7"
     }
   }
 }
@@ -152,7 +152,6 @@ source "qemu" "qemu-efi" {
     "sudo systemctl start sshd<enter>"
   ]
   boot_wait            = var.boot_wait
-  disk_interface       = "virtio-scsi"
   disk_size            = var.disk_size
   format               = "qcow2"
   headless             = true
@@ -169,8 +168,8 @@ source "qemu" "qemu-efi" {
   ssh_port             = 22
   ssh_private_key_file = "./scripts/install_ed25519"
   ssh_username         = "nixos"
-  efi_firmware_code    = "/usr/share/OVMF/OVMF_CODE_4M.ms.fd"
-  efi_firmware_vars    = "/usr/share/OVMF/OVMF_VARS_4M.ms.fd"
+  efi_firmware_code    = "./efi_data/OVMF_CODE_4M.ms.fd"
+  #efi_firmware_vars    = "/usr/share/OVMF/OVMF_VARS_4M.ms.fd"
 }
 
 source "virtualbox-iso" "virtualbox" {
@@ -179,7 +178,6 @@ source "virtualbox-iso" "virtualbox" {
     "echo '{{ .SSHPublicKey }}' > .ssh/authorized_keys<enter>",
     "sudo systemctl start sshd<enter>"
   ]
-  boot_wait            = "45s"
   disk_size            = var.disk_size
   format               = "ova"
   guest_additions_mode = "disable"
@@ -200,7 +198,6 @@ source "virtualbox-iso" "virtualbox-efi" {
     "echo '{{ .SSHPublicKey }}' > .ssh/authorized_keys<enter>",
     "sudo systemctl start sshd<enter>"
   ]
-  boot_wait            = "55s"
   disk_size            = var.disk_size
   format               = "ova"
   guest_additions_mode = "disable"
@@ -209,7 +206,6 @@ source "virtualbox-iso" "virtualbox-efi" {
   http_directory       = "scripts"
   iso_checksum         = var.iso_checksum
   iso_url              = local.iso_url
-  iso_interface        = "sata"
   shutdown_command     = "sudo shutdown -h now"
   ssh_port             = 22
   ssh_username         = "nixos"
