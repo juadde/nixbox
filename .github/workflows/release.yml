@@ -56,4 +56,4 @@ jobs:
         LOGNAME: nix
         HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
         HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
-      run: sudo HCP_CLIENT_ID=$HCP_CLIENT_ID HCP_CLIENT_SECRET=$HCP_CLIENT_SECRET make VERSION=${GITHUB_REF#refs/heads/nixos-} BUILDER=${{ matrix.BUILDER }} REPO=${{ vars.HCP_REPO }} build
+      run: sudo HCP_CLIENT_ID=$HCP_CLIENT_ID HCP_CLIENT_SECRET=$HCP_CLIENT_SECRET make VERSION=${GITHUB_REF#refs/heads/nixos-} BUILDER=${{ matrix.BUILDER }} REPO=${{ vars.HCP_REPO }} packer-build
