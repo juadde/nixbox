@@ -178,6 +178,7 @@ source "virtualbox-iso" "virtualbox" {
     "echo '{{ .SSHPublicKey }}' > .ssh/authorized_keys<enter>",
     "sudo systemctl start sshd<enter>"
   ]
+  boot_wait            = var.boot_wait
   disk_size            = var.disk_size
   format               = "ova"
   guest_additions_mode = "disable"
@@ -198,6 +199,7 @@ source "virtualbox-iso" "virtualbox-efi" {
     "echo '{{ .SSHPublicKey }}' > .ssh/authorized_keys<enter>",
     "sudo systemctl start sshd<enter>"
   ]
+  boot_wait            = var.boot_wait
   disk_size            = var.disk_size
   format               = "ova"
   guest_additions_mode = "disable"
