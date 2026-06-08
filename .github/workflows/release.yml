@@ -15,7 +15,7 @@ jobs:
       matrix:
         BUILDER: ['hyperv-iso.hyperv', 'vmware-iso.vmware']
         ARCH: ['x86_64']
-        VERSION: ['25.11', '26.05', 'unstable']
+        VERSION: ['unstable']
     steps:
     - uses: actions/checkout@master
 
@@ -48,7 +48,7 @@ jobs:
         LOGNAME: nix
         HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
         HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
-      run: sudo HCP_CLIENT_ID=$HCP_CLIENT_ID HCP_CLIENT_SECRET=$HCP_CLIENT_SECRET make VERSION=${{ matrix.VERSION }} BUILDER=${{ matrix.BUILDER }} packer-build
+      run: HCP_CLIENT_ID=$HCP_CLIENT_ID HCP_CLIENT_SECRET=$HCP_CLIENT_SECRET make VERSION=${{ matrix.VERSION }} BUILDER=${{ matrix.BUILDER }} packer-build
 
     - name: Run build  ${{ matrix.VERSION }} ${{ matrix.BUILDER }} ${{ matrix.ARCH }} and push box to vagrant registry
       if: github.repository != 'nix-community/nixbox'
@@ -57,4 +57,4 @@ jobs:
         LOGNAME: nix
         HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
         HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
-      run: sudo HCP_CLIENT_ID=$HCP_CLIENT_ID HCP_CLIENT_SECRET=$HCP_CLIENT_SECRET make VERSION=${{ matrix.VERSION }} BUILDER=${{ matrix.BUILDER }} REPO=${{ vars.HCP_REPO }} packer-build
+      run: HCP_CLIENT_ID=$HCP_CLIENT_ID HCP_CLIENT_SECRET=$HCP_CLIENT_SECRET make VERSION=${{ matrix.VERSION }} BUILDER=${{ matrix.BUILDER }} REPO=${{ vars.HCP_REPO }} packer-build
