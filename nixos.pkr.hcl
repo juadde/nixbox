@@ -232,6 +232,7 @@ source "vmware-iso" "vmware" {
   ssh_port             = 22
   ssh_private_key_file = "./scripts/install_ed25519"
   ssh_username         = "nixos"
+  network_adapter_type = "vmxnet3"
 }
 
 build {
