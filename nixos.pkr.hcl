@@ -260,7 +260,7 @@ build {
       client_id           = "${var.cloud_client_id}"
       client_secret       = "${var.cloud_client_secret}"
       box_tag             = "${var.cloud_repo}-${var.version}-bios"
-      version             = "${formatdate("YYYYMMDD-hhmm", timestamp())}"
+      version             = "${formatdate("YYYYMMDD.hhmmss", timestamp())}"
       architecture        = "${lookup(var.vagrant_cloud_arch, var.arch, "amd64")}"
     }
     post-processor "vagrant-registry" {
