@@ -259,16 +259,16 @@ build {
       only                = ["virtualbox-iso.virtualbox", "qemu.qemu", "hyperv-iso.hyperv"]
       client_id           = "${var.cloud_client_id}"
       client_secret       = "${var.cloud_client_secret}"
-      box_tag             = "${var.cloud_repo}"
-      version             = "${var.version}"
+      box_tag             = "${var.cloud_repo}-${var.version}-bios"
+      version             = "${formatdate("YYYYMMDD-hhmm", timestamp())}"
       architecture        = "${lookup(var.vagrant_cloud_arch, var.arch, "amd64")}"
     }
     post-processor "vagrant-registry" {
       only                = ["virtualbox-iso.virtualbox-efi", "qemu.qemu-efi"]
       client_id           = "${var.cloud_client_id}"
       client_secret       = "${var.cloud_client_secret}"
-      box_tag             = "${var.cloud_repo}"
-      version             = "${var.version}-efi"
+      box_tag             = "${var.cloud_repo}-${var.version}-uefi"
+      version             = "${formatdate("YYYYMMDD.hhmmss", timestamp())}"
       architecture        = "${lookup(var.vagrant_cloud_arch, var.arch, "amd64")}"
     }
   }
