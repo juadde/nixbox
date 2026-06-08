@@ -2,12 +2,11 @@ name: Release CI
 
 on:
   push:
-    branches: [ "nixos-**" ]
+    branches: [ "matrix-build" ]
 
 jobs:
-  build:
-    name: Run build ${{ matrix.BUILDER }} ${{ matrix.ARCH }}
-    continue-on-error: true
+  build-and-publish:
+    name: Run build ${{ matrix.VERSION }} ${{ matrix.BUILDER }} ${{ matrix.ARCH }}
     runs-on: ubuntu-latest
     env:
       USER: nix
@@ -15,6 +14,7 @@ jobs:
       matrix:
         BUILDER: ['virtualbox-iso.virtualbox', 'qemu.qemu', 'virtualbox-iso.virtualbox-efi', 'qemu.qemu-efi']
         ARCH: ['x86_64']
+        VERSION: ['25.11', '26.05']
     steps:
     - uses: actions/checkout@master
 
@@ -40,20 +40,20 @@ jobs:
       with:
         version: "latest"
 
-    - name: Run build ${{ matrix.BUILDER }} ${{ matrix.ARCH }} and push box to vagrant registry
+    - name: Run build ${{ matrix.VERSION }} ${{ matrix.BUILDER }} ${{ matrix.ARCH }} and push box to vagrant registry
       if: github.repository == 'nix-community/nixbox'
       env:
         USER: nix
         LOGNAME: nix
         HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
         HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
-      run: sudo HCP_CLIENT_ID=$HCP_CLIENT_ID HCP_CLIENT_SECRET=$HCP_CLIENT_SECRET make VERSION=${GITHUB_REF#refs/heads/nixos-} BUILDER=${{ matrix.BUILDER }} build
+      run: sudo HCP_CLIENT_ID=$HCP_CLIENT_ID HCP_CLIENT_SECRET=$HCP_CLIENT_SECRET make VERSION=${{ matrix.VERSION }} BUILDER=${{ matrix.BUILDER }} packer-build
 
-    - name: Run build ${{ matrix.BUILDER }} ${{ matrix.ARCH }} and push box to vagrant registry
+    - name: Run build  ${{ matrix.VERSION }} ${{ matrix.BUILDER }} ${{ matrix.ARCH }} and push box to vagrant registry
       if: github.repository != 'nix-community/nixbox'
       env:
         USER: nix
         LOGNAME: nix
         HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
         HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
-      run: sudo HCP_CLIENT_ID=$HCP_CLIENT_ID HCP_CLIENT_SECRET=$HCP_CLIENT_SECRET make VERSION=${GITHUB_REF#refs/heads/nixos-} BUILDER=${{ matrix.BUILDER }} REPO=${{ vars.HCP_REPO }} packer-build
+      run: sudo HCP_CLIENT_ID=$HCP_CLIENT_ID HCP_CLIENT_SECRET=$HCP_CLIENT_SECRET make VERSION=${{ matrix.VERSION }} BUILDER=${{ matrix.BUILDER }} REPO=${{ vars.HCP_REPO }} packer-build
