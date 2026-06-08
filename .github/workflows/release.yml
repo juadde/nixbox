@@ -2,18 +2,18 @@ name: Release CI
 
 on:
   push:
-    branches: [ "matrix-build" ]
+    branches: [ "hyperv" ]
 
 jobs:
   build-and-publish:
     name: Run build ${{ matrix.VERSION }} ${{ matrix.BUILDER }} ${{ matrix.ARCH }}
     continue-on-error: true
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       USER: nix
     strategy:
       matrix:
-        BUILDER: ['virtualbox-iso.virtualbox', 'qemu.qemu', 'virtualbox-iso.virtualbox-efi', 'qemu.qemu-efi']
+        BUILDER: ['hyperv-iso.hyperv', 'vmware-iso.vmware']
         ARCH: ['x86_64']
         VERSION: ['25.11', '26.05', 'unstable']
     steps:
