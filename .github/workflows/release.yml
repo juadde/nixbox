@@ -2,7 +2,7 @@ name: Release CI
 
 on:
   push:
-    branches: [ "matrix-build" ]
+    branches: [ "vmware" ]
 
 jobs:
   build-and-publish:
