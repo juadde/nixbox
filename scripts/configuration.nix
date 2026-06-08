@@ -1,11 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  _class = "nixos";
-  system.stateVersion = config.system.nixos.release;
-}
-
-{
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
