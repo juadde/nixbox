@@ -21,7 +21,7 @@ jobs:
 
     - name: Adjust system.stateVersion
       if: contains(matrix.VERSION, '.')
-      run: sed -i "s/}$/  system.stateVersion=\"$VERSION\";\n}/" scripts/configuration.nix
+      run: sed -i 's/}$/  system.stateVersion=\"${{ matrix.VERSION }}";\n}/' scripts/configuration.nix
 
     - name: Adjust system.stateVersion
       if: contains(matrix.VERSION, 'unstable')
