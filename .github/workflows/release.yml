@@ -7,7 +7,6 @@ on:
 jobs:
   build-and-publish:
     name: Run build ${{ matrix.VERSION }} ${{ matrix.BUILDER }} ${{ matrix.ARCH }}
-    continue-on-error: true
     runs-on: ubuntu-latest
     env:
       USER: nix
@@ -16,6 +15,7 @@ jobs:
         BUILDER: ['virtualbox-iso.virtualbox', 'qemu.qemu', 'virtualbox-iso.virtualbox-efi', 'qemu.qemu-efi']
         ARCH: ['x86_64']
         VERSION: ['25.11', '26.05', 'unstable']
+      fail-fast: false
     steps:
     - uses: actions/checkout@master
 
