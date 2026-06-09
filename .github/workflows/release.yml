@@ -1,8 +1,9 @@
 name: Release CI
 
 on:
-  push:
-    branches: [ "matrix-build" ]
+  workflow_dispatch:
+  schedule:
+    - cron: 35 10 1,15 * *
 
 jobs:
   build-and-publish:
