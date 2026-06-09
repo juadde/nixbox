@@ -19,6 +19,14 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
+    - name: Adjust system.stateVersion
+      if: contains(matrix.VERSION, '.')
+      run: sed -i "s/}$/  system.stateVersion=\"$VERSION\";\n}/" scripts/configuration.nix
+
+    - name: Adjust system.stateVersion
+      if: contains(matrix.VERSION, 'unstable')
+      run: sed -i 's/}$/  system.stateVersion="26.11";\n}/' scripts/configuration.nix
+
     - name: Install dependencies
       if: contains(matrix.BUILDER, 'virtualbox')
       run: |
