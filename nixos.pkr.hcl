@@ -37,6 +37,12 @@ variable "version" {
   type = string
 }
 
+variable "build_run" {
+  description = "build run number"
+  type = string
+  default = "1"
+}
+
 variable "arch" {
   description = "The system architecture of NixOS to build (Default: x86_64)"
   type = string
@@ -260,7 +266,7 @@ build {
       client_id           = "${var.cloud_client_id}"
       client_secret       = "${var.cloud_client_secret}"
       box_tag             = "${var.cloud_repo}-${var.version}-bios"
-      version             = "${formatdate("YYYYMMDD.hhmmss", timestamp())}"
+      version             = "${formatdate("YYYYMMDD", timestamp())}"."${var.build_run}"
       architecture        = "${lookup(var.vagrant_cloud_arch, var.arch, "amd64")}"
     }
     post-processor "vagrant-registry" {
@@ -268,7 +274,7 @@ build {
       client_id           = "${var.cloud_client_id}"
       client_secret       = "${var.cloud_client_secret}"
       box_tag             = "${var.cloud_repo}-${var.version}-uefi"
-      version             = "${formatdate("YYYYMMDD.hhmmss", timestamp())}"
+      version             = "${formatdate("YYYYMMDD", timestamp())}"."${var.build_run}"
       architecture        = "${lookup(var.vagrant_cloud_arch, var.arch, "amd64")}"
     }
   }
